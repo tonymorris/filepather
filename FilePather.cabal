@@ -21,7 +21,7 @@ Description:
     .\/System\/FilePath\/FilePather.hs
   @
 Homepage:           https://github.com/tonymorris/filepather
-Cabal-version:      >= 1.2
+Cabal-version:      >= 1.6
 Build-Type:         Simple
 
 Flag small_base
@@ -43,3 +43,7 @@ Library
 
   Exposed-Modules:
                     System.FilePath.FilePather
+
+source-repository  head
+  type: git
+  location: git@github.com:tonymorris/filepather.git
