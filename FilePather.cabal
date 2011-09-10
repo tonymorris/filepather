@@ -1,5 +1,5 @@
 Name:               FilePather
-Version:            0.0.1
+Version:            0.0.2
 Author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
 Maintainer:         Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
 Copyright:          Tony Morris
@@ -20,7 +20,7 @@ Description:
     .\/Setup.hs
     .\/System\/FilePath\/FilePather.hs
   @
-Homepage:           https://bitbucket.org/dibblego/filepather/
+Homepage:           https://github.com/tonymorris/filepather
 Cabal-version:      >= 1.2
 Build-Type:         Simple
 

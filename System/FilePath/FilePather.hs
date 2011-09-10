@@ -50,9 +50,12 @@ module System.FilePath.FilePather
   extensionSatisfies,
   extensionOneOf,
   extensionEq,
-  findHere
+  findHere,
+  indir,
+  indir'
 ) where
 
+import Control.Exception
 import Control.Applicative
 import Control.Monad
 import Data.Monoid
@@ -368,6 +371,28 @@ findHere ::
   -> IO [FilePath] -- ^ All files found.
 findHere r x =
   find r x =<< getCurrentDirectory
+
+-- | Switches to the given directory, runs the given action by passing the current directory and running in the switched directory, then returns to the current directory. The directory is switched back, even if an exception occurs during execution of the action.
+--
+-- | This is useful to run a script in a different directory without switching to it and back again.
+indir ::
+  FilePath -- ^ The directory to switch to.
+  -> (FilePath -> IO a) -- ^ The action to run after being given the current directory.
+  -> IO a -- ^ The result of running the action in the switched directory.
+indir d k =
+  do c <- getCurrentDirectory
+     setCurrentDirectory d
+     k c `finally` setCurrentDirectory c
+
+-- | Switches to the given directory, runs the given action and running in the switched directory, then returns to the current directory. The directory is switched back, even if an exception occurs during execution of the action.
+--
+-- | This is useful to run a script in a different directory without switching to it and back again.
+indir' ::
+  FilePath -- ^ The directory to switch to.
+  -> IO a -- ^ The action to run.
+  -> IO a -- ^ The result of running the action in the switched directory.
+indir' d =
+  indir d . const
 
 -- not exported
 constant ::
