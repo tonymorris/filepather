@@ -24,7 +24,7 @@ Homepage:           https://github.com/tonymorris/filepather
 Cabal-version:      >= 1.6
 Build-Type:         Simple
 
-Flag small_base
+Flag                small_base
   Description:      Choose the new, split-up base package.
 
 Library
@@ -41,9 +41,12 @@ Library
   GHC-Options:
                     -Wall
 
+  Hs-Source-Dirs:
+                    src
+
   Exposed-Modules:
                     System.FilePath.FilePather
 
-source-repository  head
+Source-Repository  head
   type: git
   location: git@github.com:tonymorris/filepather.git
