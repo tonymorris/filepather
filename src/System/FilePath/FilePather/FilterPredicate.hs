@@ -4,6 +4,8 @@ module System.FilePath.FilePather.FilterPredicate
 , FilterPredicate
 , filterPredicateT
 , filterPredicate
+, filterPredicateT'
+, filterPredicate'
 , runFilterPredicateT
 , runFilterPredicate
 ) where
@@ -31,6 +33,20 @@ filterPredicate ::
   -> FilterPredicate
 filterPredicate f =
   filterPredicateT (\z -> Identity . f z)
+
+-- | A filter predicate takes a 'FilePath' and returns whether or not to filter the value.
+filterPredicateT' ::
+  (FilePath -> f Bool)
+  -> FilterPredicateT f
+filterPredicateT' f =
+  filterPredicateT (const . f)
+
+-- | Construct a filter predicate that does not require effects to compute its result.
+filterPredicate' ::
+  (FilePath -> Bool)
+  -> FilterPredicate
+filterPredicate' f =
+  filterPredicate (const . f)
 
 -- | Extract the filter predicate function.
 runFilterPredicateT ::

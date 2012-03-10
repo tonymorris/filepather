@@ -6,9 +6,11 @@ module System.FilePath.FilePather.RecursePredicate
 , recursePredicate
 , runRecursePredicateT
 , runRecursePredicate
+, toFilterPredicate
 ) where
 
 import Control.Monad.Identity
+import System.FilePath.FilePather.FilterPredicate
 
 -- | A recurse predicate takes a 'FilePath' and returns whether or not to continue recursing on that file.
 newtype RecursePredicateT f =
@@ -47,4 +49,11 @@ runRecursePredicate ::
   -> Bool
 runRecursePredicate p =
   runIdentity . runRecursePredicateT p
+
+-- | Convert the recurse predicate to a filter predicate.
+toFilterPredicate ::
+  RecursePredicateT f
+  -> FilterPredicateT f
+toFilterPredicate (RecursePredicateT f) =
+  filterPredicateT (const . f)
 
