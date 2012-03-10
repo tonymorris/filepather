@@ -1,5 +1,5 @@
 Name:               FilePather
-Version:            0.1.1
+Version:            0.1.2
 Author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
 Maintainer:         Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
 Copyright:          Tony Morris
@@ -34,12 +34,7 @@ Library
                     filepath >= 1.2,
                     mtl >= 2,
                     comonad >= 1.1,
-                    transformers >= 0.2,
-                    HUnit,
-                    QuickCheck,
-                    test-framework,
-                    test-framework-hunit,
-                    test-framework-quickcheck2
+                    transformers >= 0.2
 
   GHC-Options:
                     -Wall
