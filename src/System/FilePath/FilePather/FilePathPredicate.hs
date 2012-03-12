@@ -55,7 +55,7 @@ class FilePathPredicate f where
     Monad g =>
     (FilePath -> Bool)
     -> f g
-  -- | A predicate that computes its result based equivalence to a file name extension.
+  -- | A predicate that computes its result based equivalence to a file name extension. This function matches with and without the preceding extension separator (.).
   extensionEq ::
     Monad g =>
     FilePath
@@ -194,7 +194,7 @@ instance FilePathPredicate RecursePredicateT where
   (.!.) f =
     recursePredicateT $ liftM not . runRecursePredicateT f
   extension f = 
-    recursePredicateT $ return . f . P.takeExtension
+    recursePredicateT $ return . liftM2 (||) f (f . drop 1) . P.takeExtension
   directory f = 
     recursePredicateT $ return . f . P.takeDirectory
   hasExtension =
@@ -242,7 +242,7 @@ instance FilePathPredicate FilterPredicateT where
   (.!.) f =
     filterPredicateT $ \p -> liftM not . runFilterPredicateT f p
   extension f = 
-    filterPredicateT $ const . return . f . P.takeExtension
+    filterPredicateT $ const . return . liftM2 (||) f (f . drop 1) . P.takeExtension
   directory f = 
     filterPredicateT $ const . return . f . P.takeDirectory
   hasExtension =
