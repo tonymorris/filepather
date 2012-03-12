@@ -49,6 +49,7 @@ Library
                     System.FilePath.FilePather.FilterPredicate
                     System.FilePath.FilePather.FilePathPredicate
                     System.FilePath.FilePather.Find
+                    System.FilePath.FilePather.LiftI
 
 Source-Repository  head
   type: git
