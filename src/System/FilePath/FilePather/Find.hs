@@ -62,8 +62,8 @@ instance Find Identity where
                     in if l
                          then
                            do t <- getDirectoryContents p
-                              u <- liftM concat $ forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                              rkeep k u
+                              u <- forM (filter (`notElem` [".", ".."]) t) (find f' r')
+                              rkeep k (concat u)
                          else
                            rkeep k []
                   else
@@ -105,8 +105,8 @@ instance Find IO where
                         if l
                           then
                             do t <- getDirectoryContents p
-                               u <- liftM concat $ forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                               rkeep k u
+                               u <- forM (filter (`notElem` [".", ".."]) t) (find f' r')
+                               rkeep k (concat u)
                           else
                             rkeep k []
                    else
