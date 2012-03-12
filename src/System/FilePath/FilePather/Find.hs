@@ -50,26 +50,25 @@ instance Find Identity where
           -> IO [FilePath]
         trkeep =
           flip rkeep [] . runIdentity . f p
-   in fmap (drop 1) $ 
-        do fe <- doesFileExist p
-           if fe
-             then
-               trkeep File
-             else
-               do de <- doesDirectoryExist p
-                  if de
-                    then  
-                      let (Identity k) = f p Directory
-                          (Identity l) = r p
-                      in if l
-                           then
-                             do t <- getDirectoryContents p
-                                u <- forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                                rkeep k (concat u)
-                           else
-                             rkeep k []
-                    else
-                      trkeep Unknown
+   in do fe <- doesFileExist p
+         if fe
+           then
+             trkeep File
+           else
+             do de <- doesDirectoryExist p
+                if de
+                  then
+                    let (Identity k) = f p Directory
+                        (Identity l) = r p
+                    in if l
+                         then
+                           do t <- getDirectoryContents p
+                              u <- forM (filter (`notElem` [".", ".."]) t) (find f' r')
+                              rkeep k (concat u)
+                         else
+                           rkeep k []
+                  else
+                    trkeep Unknown
 
 -- | A specialisation of `find` to the `Identity` monad. Useful in assisting type-inference.
 findi ::
@@ -103,26 +102,25 @@ instance Find IO where
           -> IO [FilePath]
         trkeep t =
           f p t >>= flip rkeep []
-    in fmap (drop 1) $ 
-         do fe <- doesFileExist p
-            if fe
-              then
-                trkeep File
-              else
-                do de <- doesDirectoryExist p
-                   if de
-                     then
-                       do k <- f p Directory
-                          l <- r p
-                          if l
-                            then
-                              do t <- getDirectoryContents p
-                                 u <- forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                                 rkeep k (concat u)
-                            else
-                              rkeep k []
-                     else
-                       trkeep Unknown
+    in do fe <- doesFileExist p
+          if fe
+            then
+              trkeep File
+            else
+              do de <- doesDirectoryExist p
+                 if de
+                   then
+                     do k <- f p Directory
+                        l <- r p
+                        if l
+                          then
+                            do t <- getDirectoryContents p
+                               u <- forM (filter (`notElem` [".", ".."]) t) (find f' r')
+                               rkeep k (concat u)
+                          else
+                            rkeep k []
+                   else
+                     trkeep Unknown
 
 instance Comonad f => Find (IdentityT f) where
   find f r =
