@@ -7,6 +7,7 @@ import qualified System.FilePath as P
 import System.FilePath.FilePather.RecursePredicate
 import System.FilePath.FilePather.FilterPredicate
 import Control.Monad
+import qualified Data.Foldable as F
 
 -- | Functions that are common to predicates that work on 'FilePath' values.
 class FilePathPredicate f where
@@ -35,11 +36,46 @@ class FilePathPredicate f where
     Monad g =>
     f g
     -> f g
+  -- | Folds the predicates on disjunction.
+  anyof ::
+    (F.Foldable t, Monad g) =>
+    t (f g)
+    -> f g
+  -- | Folds the predicates on conjunction.
+  anyof =
+    F.foldr (.||.) never
+  allof ::
+    (F.Foldable t, Monad g) =>
+    t (f g)
+    -> f g
+  allof =
+    F.foldr (.&&.) always
   -- | A predicate that computes its result based on a file name extension.
   extension ::
     Monad g =>
     (FilePath -> Bool)
     -> f g
+  -- | A predicate that computes its result based equivalence to a file name extension.
+  extensionEq ::
+    Monad g =>
+    FilePath
+    -> f g
+  extensionEq p =
+    extension (== p)
+  -- | A predicate that computes its result based equivalence to one of a list of file name extensions.
+  extensionOneof ::
+    (F.Foldable t, Monad g) =>
+    t FilePath
+    -> f g
+  extensionOneof =
+    F.foldr (\a b -> extensionEq a .||. b) never
+  -- | A predicate that computes its result based inequivalence to any of a list of file name extensions.
+  extensionNoneof ::
+    (F.Foldable t, Monad g) =>
+    t FilePath
+    -> f g
+  extensionNoneof =
+    F.foldr (\a b -> (.!.) (extensionEq a) .&&. b) always
   -- | A predicate that computes its result based on a directory.
   directory ::
     Monad g =>
