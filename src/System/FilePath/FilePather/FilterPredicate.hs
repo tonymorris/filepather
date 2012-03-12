@@ -25,7 +25,7 @@ filterPredicateT ::
   (FilePath -> FileType -> f Bool)
   -> FilterPredicateT f
 filterPredicateT =
-  filterPredicateT
+  FilterPredicateT
 
 -- | Construct a filter predicate that does not require effects to compute its result.
 filterPredicate ::
