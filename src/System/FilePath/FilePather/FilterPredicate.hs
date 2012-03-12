@@ -8,6 +8,9 @@ module System.FilePath.FilePather.FilterPredicate
 , filterPredicate'
 , runFilterPredicateT
 , runFilterPredicate
+, isDirectoryType
+, isFileType
+, isUnknownType
 ) where
 
 import Control.Monad.Identity
@@ -66,3 +69,20 @@ runFilterPredicate ::
 runFilterPredicate p k =
   runIdentity . runFilterPredicateT p k
 
+isDirectoryType ::
+  Monad f =>
+  FilterPredicateT f
+isDirectoryType =
+  filterPredicateT . const $ return . isDirectory
+
+isFileType ::
+  Monad f =>
+  FilterPredicateT f
+isFileType =
+  filterPredicateT . const $ return . isFile
+
+isUnknownType ::
+  Monad f =>
+  FilterPredicateT f
+isUnknownType =
+  filterPredicateT . const $ return . isUnknown

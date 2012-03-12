@@ -1,9 +1,9 @@
 module System.FilePath.FilePather.FileType
 (
   FileType(..)
-, isFileType
-, isDirectoryType
-, isUnknownType
+, isFile
+, isDirectory
+, isUnknown
 ) where
 -- | The possible types of a file.
 data FileType =
@@ -12,21 +12,21 @@ data FileType =
   | Unknown -- ^ The type is unknown.
   deriving (Eq, Show, Enum)
 
-isFileType ::
+isFile ::
   FileType
   -> Bool
-isFileType =
+isFile =
   (==) File
 
-isDirectoryType ::
+isDirectory ::
   FileType
   -> Bool
-isDirectoryType =
+isDirectory =
   (==) Directory
 
-isUnknownType ::
+isUnknown ::
   FileType
   -> Bool
-isUnknownType =
+isUnknown =
   (==) Unknown
 
