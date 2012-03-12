@@ -9,17 +9,6 @@ Synopsis:           Functions on System.FilePath
 Category:           System
 Description:
   Functions over @System.FilePath@ including a find function for recursing down directories.
-  .
-  /This package is similar to the filemanip package but without the mtl dependency./
-  .
-  Usage example:
-  .
-  @
-    -- find all haskell source files in the current directory, recursing all the way down
-    findHere always (extensionEq \"hs\") >>= mapM_ putStrLn
-    .\/Setup.hs
-    .\/System\/FilePath\/FilePather.hs
-  @
 Homepage:           https://github.com/tonymorris/filepather
 Cabal-version:      >= 1.6
 Build-Type:         Simple

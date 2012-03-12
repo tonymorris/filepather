@@ -18,6 +18,13 @@ class Find f where
     -> RecursePredicateT f
     -> FilePath
     -> IO [FilePath]
+  -- | Find files in the current directory.
+  findHere ::
+    FilterPredicateT f
+    -> RecursePredicateT f
+    -> IO [FilePath]
+  findHere f r =
+    getCurrentDirectory >>= find f r
 
 instance Find Identity where
   find f' r' p = 
