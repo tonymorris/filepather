@@ -63,7 +63,6 @@ instance Find Identity where
                          then
                            do t <- getDirectoryContents p
                               u <- liftM concat $ forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                              putStrLn ("hi " ++ show u)
                               rkeep k u
                          else
                            rkeep k []
