@@ -22,8 +22,18 @@ findT ::
   -> RecursePredicateT f
   -> FilePath
   -> f (IO [FilePath])
-findT =
-  undefined
+findT f' r' p =
+  let f =
+        runFilterPredicateT f'
+      r =
+        runRecursePredicateT r'
+      keep ::
+        Bool
+        -> [FilePath]
+        -> [FilePath]
+      keep u =
+        if u then (p:) else id
+  in undefined
 
 -- | Find files in the current directory.
 findHereT ::
