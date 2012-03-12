@@ -34,6 +34,7 @@ findHereT ::
 findHereT f r =
   liftM join (collectM (findT f r) getCurrentDirectory)
 
+-- | Finds all files using the given recurse predicate and filter predicate in the given file path.
 find ::
   FilterPredicate
   -> RecursePredicate
@@ -42,6 +43,7 @@ find ::
 find f r p =
   runIdentity (findT f r p)
 
+-- | Find files in the current directory.
 findHere ::
   FilterPredicate
   -> RecursePredicate
@@ -92,15 +94,6 @@ instance Find Identity where
                            rkeep k []
                   else
                     trkeep Unknown
-
--- | A specialisation of `find` to the `Identity` monad. Useful in assisting type-inference.
-findi ::
-  FilterPredicate
-  -> RecursePredicate
-  -> FilePath
-  -> IO [FilePath]
-findi =
-  find
 
 instance Find IO where
   find f' r' p =
