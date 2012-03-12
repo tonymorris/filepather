@@ -38,17 +38,17 @@ instance Find Identity where
           -> [FilePath]
         keep u =
           if u then (p:) else id
-        rkeep :: 
-          [FilePath]
-          -> Bool
+        rkeep ::          
+          Bool
+          -> [FilePath]
           -> IO [FilePath]
-        rkeep d u =
+        rkeep u d =
           return (keep u d)
         trkeep ::
           FileType
           -> IO [FilePath]
         trkeep t =
-          rkeep [] $ runIdentity (f p t)
+          flip rkeep [] $ runIdentity (f p t)
    in do fe <- doesFileExist p
          if fe
            then
@@ -63,9 +63,10 @@ instance Find Identity where
                          then
                            do t <- getDirectoryContents p
                               u <- liftM concat $ forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                              rkeep u k
+                              putStrLn ("hi " ++ show u)
+                              rkeep k u
                          else
-                           rkeep [] k
+                           rkeep k []
                   else
                     trkeep Unknown
 
@@ -82,16 +83,16 @@ instance Find IO where
         keep u =
           if u then (p:) else id
         rkeep :: 
-          [FilePath]
-          -> Bool
+          Bool
+          -> [FilePath]
           -> IO [FilePath]
-        rkeep d u =
+        rkeep u d =
           return (keep u d)
         trkeep ::
           FileType
           -> IO [FilePath]
         trkeep t =
-          f p t >>= rkeep []
+          f p t >>= flip rkeep []
     in do fe <- doesFileExist p
           if fe
             then
@@ -106,9 +107,9 @@ instance Find IO where
                           then
                             do t <- getDirectoryContents p
                                u <- liftM concat $ forM (filter (`notElem` [".", ".."]) t) (find f' r')
-                               rkeep u k
+                               rkeep k u
                           else
-                            rkeep [] k
+                            rkeep k []
                    else
                      trkeep Unknown
 
