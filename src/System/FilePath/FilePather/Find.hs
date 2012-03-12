@@ -47,8 +47,8 @@ instance Find Identity where
         trkeep ::
           FileType
           -> IO [FilePath]
-        trkeep t =
-          flip rkeep [] $ runIdentity (f p t)
+        trkeep =
+          flip rkeep [] . runIdentity . (f p)
    in do fe <- doesFileExist p
          if fe
            then
