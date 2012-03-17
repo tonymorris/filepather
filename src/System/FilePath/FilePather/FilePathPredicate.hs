@@ -55,21 +55,21 @@ class FilePathPredicate f where
     Monad g =>
     (FilePath -> Bool)
     -> f g
-  -- | A predicate that computes its result based equivalence to a file name extension. This function matches with and without the preceding extension separator (.).
+  -- | A predicate that computes its result based on equivalence to a file name extension. This function matches with and without the preceding extension separator (.).
   extensionEq ::
     Monad g =>
     FilePath
     -> f g
   extensionEq p =
     extension (== p)
-  -- | A predicate that computes its result based equivalence to one of a list of file name extensions.
+  -- | A predicate that computes its result based on equivalence to one of a list of file name extensions.
   extensionOneof ::
     (F.Foldable t, Monad g) =>
     t FilePath
     -> f g
   extensionOneof =
     F.foldr (\a b -> extensionEq a .||. b) never
-  -- | A predicate that computes its result based inequivalence to any of a list of file name extensions.
+  -- | A predicate that computes its result based on inequivalence to any of a list of file name extensions.
   extensionNoneof ::
     (F.Foldable t, Monad g) =>
     t FilePath
