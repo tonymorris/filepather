@@ -12,7 +12,7 @@ module System.FilePath.FilePather.RecursePredicate
 import Control.Monad.Identity
 import System.FilePath.FilePather.FilterPredicate
 
--- | A recurse predicate takes a 'FilePath' and returns whether or not to continue recursing on that file.
+-- | A recurse predicate takes a 'FilePath', which is a directory, and returns whether or not to continue recursing down on that directory.
 newtype RecursePredicateT f =
   RecursePredicateT (FilePath -> f Bool)
 

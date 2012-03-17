@@ -10,7 +10,7 @@ data FileType =
   File -- ^ The type is a normal file.
   | Directory -- ^ The type is a directory.
   | Unknown -- ^ The type is unknown.
-  deriving (Eq, Show, Enum)
+  deriving (Eq, Ord, Show, Enum)
 
 isFile ::
   FileType
