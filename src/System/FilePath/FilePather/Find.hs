@@ -2,6 +2,7 @@ module System.FilePath.FilePather.Find
 (
   Find(..)
 , findi
+, findpi
 , FindR
 , foundR
 , dropR
@@ -24,8 +25,8 @@ import System.FilePath.FilePather.FilterPredicate
 import System.FilePath.FilePather.FileType
 import System.Directory
 
--- | Finds all files using the given recurse predicate and filter predicate in the given file path.
 class Find f where
+  -- | Finds all files using the given recurse predicate and filter predicate in the given file path.
   find ::
     FilterPredicateT f
     -> RecursePredicateT f
@@ -38,6 +39,26 @@ class Find f where
     -> IO [FindR]
   findHere f r =
     getCurrentDirectory >>= find f r
+  -- | Finds all files using the given recurse predicate and filter predicate in the given file path.
+  findp ::
+    FilterPredicateT f
+    -> RecursePredicateT f
+    -> FilePath
+    -> IO [FilePath]
+  findp f r =
+    liftM (\x -> x >>= \w ->
+      case w of
+        Found p _   -> [p]
+        Drop _ _    -> []
+        Recurse _   -> []
+        NoRecurse _ -> []) . find f r
+  -- | Find files in the current directory.
+  findpHere ::
+    FilterPredicateT f
+    -> RecursePredicateT f
+    -> IO [FilePath]
+  findpHere f r =
+    getCurrentDirectory >>= findp f r
 
 instance Find Identity where
   find f' r' =
@@ -149,6 +170,15 @@ findi ::
   -> IO [FindR]
 findi =
   find
+
+-- | A specialisation of `findp` to the `Identity` monad. Useful in assisting type-inference.
+findpi ::
+  FilterPredicate
+  -> RecursePredicate
+  -> FilePath
+  -> IO [FilePath]
+findpi =
+  findp
 
 data FindR =
   Found FilePath FileType
