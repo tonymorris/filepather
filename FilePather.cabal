@@ -1,5 +1,5 @@
 Name:               FilePather
-Version:            0.1.8
+Version:            0.2.0
 Author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
 Maintainer:         Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
 Copyright:          Tony Morris
@@ -24,7 +24,7 @@ Library
                     mtl >= 2,
                     comonad >= 1.1,
                     transformers >= 0.2,
-                    data-lens >= 4,
+                    data-lens >= 2.9,
                     comonad-transformers >= 2
 
   GHC-Options:

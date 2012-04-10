@@ -180,6 +180,15 @@ findpi ::
 findpi =
   findp
 
+-- | The results of a path find. One of
+--
+-- * `found` with the file path name and file type.
+--
+-- * `drop` with the file path name and file type.
+--
+-- * `recurse` with the file path (the file type is always directory).
+--
+-- * `no-recurse` with the file path (the file type is always directory).
 data FindR =
   Found FilePath FileType
   | Drop FilePath FileType
