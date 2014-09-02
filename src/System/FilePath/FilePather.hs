@@ -245,3 +245,133 @@ isDrive ::
   f Bool
 isDrive =
   fmap SP.isDrive getFilePath 
+
+splitFileName ::
+  GetFilePath f =>
+  f (FilePath, FilePath)
+splitFileName =
+  fmap SP.splitFileName getFilePath 
+
+takeFileName ::
+  PutFilePath f =>
+  f ()
+takeFileName =
+  modifyFilePath SP.takeFileName
+  
+replaceFileName ::
+  PutFilePath f =>
+  String
+  -> f ()
+replaceFileName x = 
+  modifyFilePath (`SP.replaceFileName` x)
+
+dropFileName ::
+  PutFilePath f =>
+  f ()
+dropFileName =
+  modifyFilePath SP.dropFileName
+  
+takeBaseName ::
+  GetFilePath f =>
+  f String
+takeBaseName =
+  fmap SP.takeBaseName getFilePath 
+
+replaceBaseName ::
+  PutFilePath f =>
+  String
+  -> f ()
+replaceBaseName x = 
+  modifyFilePath (`SP.replaceBaseName` x)
+
+takeDirectory ::
+  PutFilePath f =>
+  f ()
+takeDirectory =
+  modifyFilePath SP.takeDirectory
+  
+replaceDirectory ::
+  PutFilePath f =>
+  String
+  -> f ()
+replaceDirectory x = 
+  modifyFilePath (`SP.replaceDirectory` x)
+
+combine ::
+  (GetFilePath f, PutFilePath g) =>
+  f (g ())
+combine =
+  fmap (modifyFilePath . SP.combine) getFilePath
+
+splitPath ::
+  GetFilePath f =>
+  f [FilePath]
+splitPath =
+  fmap SP.splitPath getFilePath 
+
+splitDirectories ::
+  GetFilePath f =>
+  f [FilePath]
+splitDirectories =
+  fmap SP.splitDirectories getFilePath 
+
+hasTrailingPathSeparator ::
+  GetFilePath f =>
+  f Bool
+hasTrailingPathSeparator =
+  fmap SP.hasTrailingPathSeparator getFilePath 
+
+addTrailingPathSeparator ::
+  PutFilePath f =>
+  f ()
+addTrailingPathSeparator =
+  modifyFilePath SP.addTrailingPathSeparator
+  
+dropTrailingPathSeparator ::
+  PutFilePath f =>
+  f ()
+dropTrailingPathSeparator =
+  modifyFilePath SP.dropTrailingPathSeparator
+  
+normalise ::
+  PutFilePath f =>
+  f ()
+normalise =
+  modifyFilePath SP.normalise
+  
+equalFilePath ::
+  (GetFilePath f, GetFilePath g) =>
+  f (g Bool)
+equalFilePath =
+  fmap (\a -> fmap (SP.equalFilePath a) getFilePath) getFilePath
+
+makeRelative ::
+  (GetFilePath f, PutFilePath g) =>
+  f (g ())
+makeRelative =
+  fmap (modifyFilePath . SP.makeRelative) getFilePath
+
+isRelative ::
+  GetFilePath f =>
+  f Bool
+isRelative =
+  fmap SP.isRelative getFilePath 
+
+isAbsolute ::
+  GetFilePath f =>
+  f Bool
+isAbsolute =
+  fmap SP.isAbsolute getFilePath 
+
+isValid ::
+  GetFilePath f =>
+  f Bool
+isValid =
+  fmap SP.isValid getFilePath 
+
+makeValid ::
+  PutFilePath f =>
+  f ()
+makeValid =
+  modifyFilePath SP.makeValid
+  
