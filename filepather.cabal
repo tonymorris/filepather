@@ -26,13 +26,7 @@ Library
 
   build-depends:
                     base < 5 && >= 3,
-                    directory >= 1.1,
-                    filepath >= 1.2,
-                    mtl >= 2,
-                    comonad >= 1.1,
-                    transformers >= 0.2,
-                    data-lens >= 2.9,
-                    comonad-transformers >= 2
+                    lens >= 4.0
 
   ghc-options:
                     -Wall
@@ -45,12 +39,6 @@ Library
 
   exposed-modules:
                     System.FilePath.FilePather
-                    System.FilePath.FilePather.FileType
-                    System.FilePath.FilePather.RecursePredicate
-                    System.FilePath.FilePather.FilterPredicate
-                    System.FilePath.FilePather.FilePathPredicate
-                    System.FilePath.FilePather.Find
-                    System.FilePath.FilePather.LiftI
 
 test-suite doctests
   type:
