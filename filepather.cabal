@@ -1,23 +1,30 @@
-Name:               filepather
-Version:            0.3.0
-Author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
-Maintainer:         Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
-Copyright:          Tony Morris
-License:            BSD3
-License-File:       LICENSE
-Synopsis:           Functions on System.FilePath
-Category:           System
-Description:
-  Functions over @System.FilePath@ including a find function for recursing down directories.
-Homepage:           https://github.com/tonymorris/filepather
-Cabal-version:      >= 1.6
-Build-Type:         Simple
+name:               filepather
+version:            0.3.1
+license:            BSD3
+license-file:       LICENSE
+author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
+maintainer:         Tony Morris
+copyright:          Tony Morris
+synopsis:           Functions on System.FilePath
+category:           Data
+description:        Functions over @System.FilePath@ including a find function for recursing down directories.
+homepage:           https://github.com/tonymorris/filepather
+bug-reports:        https://github.com/tonymorris/filepather/issues
+cabal-version:      >= 1.10
+build-type:         Custom
 
-Flag                small_base
-  Description:      Choose the new, split-up base package.
+source-repository   head
+  type:             git
+  location:         git@github.com:tonymorris/filepather.git
+
+flag                small_base
+  description:      Choose the new, split-up base package.
 
 Library
-  Build-Depends:
+  default-language:
+                    Haskell2010
+
+  build-depends:
                     base < 5 && >= 3,
                     directory >= 1.1,
                     filepath >= 1.2,
@@ -27,13 +34,16 @@ Library
                     data-lens >= 2.9,
                     comonad-transformers >= 2
 
-  GHC-Options:
+  ghc-options:
                     -Wall
 
-  Hs-Source-Dirs:
+  default-extensions:
+                    NoImplicitPrelude
+
+  hs-source-dirs:
                     src
 
-  Exposed-Modules:
+  exposed-modules:
                     System.FilePath.FilePather
                     System.FilePath.FilePather.FileType
                     System.FilePath.FilePather.RecursePredicate
@@ -42,7 +52,26 @@ Library
                     System.FilePath.FilePather.Find
                     System.FilePath.FilePather.LiftI
 
-Source-Repository  head
-  type: git
-  location: git@github.com:tonymorris/filepather.git
+test-suite doctests
+  type:
+                    exitcode-stdio-1.0
 
+  main-is:
+                    doctests.hs
+
+  default-language:
+                    Haskell2010
+
+  build-depends:
+                    base < 5 && >= 3,
+                    doctest >= 0.9.7,
+                    filepath >= 1.3,
+                    directory >= 1.1,
+                    QuickCheck >= 2.0
+
+  ghc-options:
+                    -Wall
+                    -threaded
+
+  hs-source-dirs:
+                    test

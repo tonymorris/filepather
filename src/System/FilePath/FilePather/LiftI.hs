@@ -5,6 +5,7 @@ module System.FilePath.FilePather.LiftI
   LiftI(..)
 ) where
 
+import Prelude
 import System.FilePath.FilePather.RecursePredicate
 import System.FilePath.FilePather.FilterPredicate
 

@@ -9,6 +9,8 @@ module System.FilePath.FilePather.RecursePredicate
 , toFilterPredicate
 ) where
 
+import Prelude
+
 import Control.Monad.Identity
 import System.FilePath.FilePather.FilterPredicate
 

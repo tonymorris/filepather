@@ -5,6 +5,9 @@ module System.FilePath.FilePather.FileType
 , isDirectory
 , isUnknown
 ) where
+
+import Prelude
+
 -- | The possible types of a file.
 data FileType =
   File -- ^ The type is a normal file.

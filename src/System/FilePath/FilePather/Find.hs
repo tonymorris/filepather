@@ -14,6 +14,7 @@ module System.FilePath.FilePather.Find
 , noRecurseL
 ) where
 
+import Prelude
 import Control.Monad.Identity
 import Control.Monad.Trans.Identity
 import Control.Comonad

@@ -3,6 +3,7 @@ module System.FilePath.FilePather.FilePathPredicate
   FilePathPredicate(..)
 ) where
 
+import Prelude
 import qualified System.FilePath as P
 import System.FilePath.FilePather.RecursePredicate
 import System.FilePath.FilePather.FilterPredicate

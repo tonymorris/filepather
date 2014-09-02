@@ -13,6 +13,7 @@ module System.FilePath.FilePather.FilterPredicate
 , isUnknownType
 ) where
 
+import Prelude
 import Control.Monad.Identity
 import System.FilePath.FilePather.FileType
 
