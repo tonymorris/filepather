@@ -4,6 +4,7 @@ import Control.Applicative(Applicative(pure, (<*>)), liftA2)
 import Control.Category(Category((.)))
 import Control.Lens.Iso(Iso, iso)
 import Control.Monad(Monad((>>=), return), liftM)
+import Control.Monad.IO.Class(MonadIO(liftIO))
 import Control.Monad.Trans.Class(MonadTrans(lift))
 import Data.Bool(Bool)
 import Data.Functor(Functor(fmap))
@@ -14,6 +15,7 @@ import Data.Functor.Identity(Identity(Identity, runIdentity))
 import Data.String(String)
 import System.FilePath(FilePath)
 import qualified System.FilePath as SP
+import qualified System.Directory as SD
 
 newtype FilePathStateT f a =
   FilePathStateT (FilePath -> f (FilePath, a))
@@ -41,6 +43,10 @@ instance Monad f => Monad (FilePathStateT f) where
     FilePathStateT (\p -> k p >>= \(q, a) -> let FilePathStateT s = f a in s q)
   return a =
     FilePathStateT (\p -> return (p, a))
+
+instance MonadIO f => MonadIO (FilePathStateT f) where
+  liftIO a =
+    FilePathStateT (\p -> liftIO (fmap ((,) p) a))
 
 instance MonadTrans FilePathStateT where
   lift a =
@@ -101,6 +107,10 @@ instance Monad f => Monad (FilePathReaderT f) where
     FilePathReaderT (\p -> k p >>= \a -> let FilePathReaderT r = f a in r p)
   return =
     FilePathReaderT . return . return
+
+instance MonadIO f => MonadIO (FilePathReaderT f) where
+  liftIO =
+    FilePathReaderT . pure . liftIO
 
 instance MonadTrans FilePathReaderT where
   lift =
@@ -375,3 +385,49 @@ makeValid ::
 makeValid =
   modifyFilePath SP.makeValid
   
+----
+
+createDirectory ::
+  (GetFilePath f, MonadIO f, Bind f) => 
+  f ()
+createDirectory =
+  getFilePath >>- liftIO . SD.createDirectory
+
+createDirectoryIfMissing ::
+  (GetFilePath f, MonadIO f, Bind f) => 
+  Bool
+  -> f ()
+createDirectoryIfMissing p =
+  getFilePath >>- liftIO . SD.createDirectoryIfMissing p
+
+removeDirectory ::
+  (GetFilePath f, MonadIO f, Bind f) => 
+  f ()
+removeDirectory =
+  getFilePath >>- liftIO . SD.removeDirectory
+
+removeDirectoryRecursive ::
+  (GetFilePath f, MonadIO f, Bind f) => 
+  f ()
+removeDirectoryRecursive =
+  getFilePath >>- liftIO . SD.removeDirectoryRecursive
+
+renameDirectory ::
+  (GetFilePath f, GetFilePath g, MonadIO g, Bind g) => 
+  f (g ())
+renameDirectory =
+  fmap (\p -> getFilePath >>- liftIO . SD.renameDirectory p) getFilePath
+
+getDirectoryContents ::
+  (GetFilePath f, MonadIO f, Bind f) => 
+  f [FilePath]
+getDirectoryContents =
+  getFilePath >>- liftIO . SD.getDirectoryContents  
+
+setCurrentDirectory ::
+  (GetFilePath f, MonadIO f, Bind f) => 
+  f ()
+setCurrentDirectory =
+  getFilePath >>- liftIO . SD.setCurrentDirectory
+
+undef = undef  

@@ -26,6 +26,7 @@ Library
 
   build-depends:
                     base < 5 && >= 3,
+                    directory >= 1.2,
                     filepath >= 1.2,
                     lens >= 4.0,
                     semigroupoids >= 4.2,
