@@ -1,0 +1,27 @@
+image: haskell:8.6.5
+
+before_script:
+  - export LANG=en_US.UTF-8
+  - export LC_ALL=C.UTF-8
+  - export LANG=en_AU.UTF-8
+  - ./bin/configure.sh
+  - apt-get update
+  - apt-get install -y rsync git
+  - export COMMIT_TIME=$(TZ=UTC git show -s --date=format-local:'%Y-%m-%d %H:%M:%S %Z' --pretty=format:%cd $CI_COMMIT_SHA)
+
+build:
+  variables:
+    COMMIT_TIME: $(TZ=UTC git show -s --date=format-local:'%Y-%m-%d %H:%M:%S %Z' --pretty=format:%cd $CI_COMMIT_SHA)
+  script:
+    - ./bin/build.sh "${CI_PAGES_DOMAIN}" "${CI_PAGES_URL}" "${CI_PROJECT_TITLE}" "${CI_PROJECT_URL}" "${COMMIT_TIME}" "${GITLAB_USER_NAME}" "${GITLAB_USER_EMAIL}" "${CI_COMMIT_SHA}" "${CI_PROJECT_VISIBILITY}"
+  except:
+    - master
+
+pages:
+  script:
+    - ./bin/build.sh "${CI_PAGES_DOMAIN}" "${CI_PAGES_URL}" "${CI_PROJECT_TITLE}" "${CI_PROJECT_URL}" "${COMMIT_TIME}" "${GITLAB_USER_NAME}" "${GITLAB_USER_EMAIL}" "${CI_COMMIT_SHA}" "${CI_PROJECT_VISIBILITY}"
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

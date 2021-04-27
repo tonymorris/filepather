@@ -1,6 +1,1 @@
 :set -isrc
-:l System.FilePath.FilePather
-:m + Test.QuickCheck System.FilePath.FilePather
-:set prompt ">> "
-:set -Wall
-
