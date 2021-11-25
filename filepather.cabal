@@ -1,5 +1,5 @@
 name:                 filepather
-version:              0.3.0
+version:              0.4.0
 synopsis:             Functions on System.FilePath
 description:
   Functions over @System.FilePath@ including a find function for recursing down directories.
